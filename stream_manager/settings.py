@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -37,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'swampdragon',
+    'tweets',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,8 +59,12 @@ WSGI_APPLICATION = 'stream_manager.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'stream_manager',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': '',
+        'PORT': '5432',
     }
 }
 
@@ -83,5 +87,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), 'static/'),
+)
+
 # SwampDragon settings
 SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
+DRAGON_URL = 'http://localhost:9999/'
+
+# Twitter settings
+CONSUMER_KEY = '6Z90CkABFv7hU6rh0ykaA'
+CONSUMER_SECRET = 'vQiYj3vQDlHzQm55LpdZds3GKkf6PkKmChzzLEkPuc'
+ACCESS_TOKEN = '1907442620-S1sijhgLuKmiazepf0QReX8lbvScy8Q7tI30ose'
+ACCESS_TOKEN_SECRET = 'stb2PbGqyAJkYbnjv3kbcmHThQI7BfPdrEFoBQlbY'
