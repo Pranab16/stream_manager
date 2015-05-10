@@ -9,4 +9,4 @@ class UserSerializer(ModelSerializer):
 class TweetSerializer(ModelSerializer):
     class Meta:
         model = 'tweets.tweet'
-        publish_fields = ['text']
+        publish_fields = ['text', 'hashtag']

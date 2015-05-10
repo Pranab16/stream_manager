@@ -10,42 +10,45 @@ swampdragon.ready(function() {
 
 // this is called whenever a new object(of any model being watched) is created
 swampdragon.onChannelMessage(function (channels, message) {
-    if(message.data._type == 'tweet'){
+    if(message.data._type == 'tweet' && message.data.hashtag == hashtag){
 
         // fetch and set tweets count
         swampdragon.callRouter('get_count', 'tweets', {hashtag: hashtag}, function (context, data) {
-            $('#tweet_count').val(data.tweet_count);
+            $('#tweet_count').text(data.tweet_count);
         });
 
         // Fetch and update screen name having maximum tweets
         swampdragon.callRouter('get_screen_name', 'users', {hashtag: hashtag}, function (context, data) {
-            $('#user_screen_name').val(data.screen_name);
+            $('#user_screen_name').text(data.screen_name);
         });
+        $('#tweet_results').show(); //show new tweet results
 
     }else if(message.data._type == 'user'){
         // fetch and set users count
         swampdragon.callRouter('get_count', 'users', {hashtag: hashtag}, function (context, data) {
-            $('#user_count').val(data.user_count);
+            $('#user_count').text(data.user_count);
         });
     }
-    $('#tweet_results').show(); //show new tweet results
+
 
 });
 
 var start_track = function(url, csrf_token){
     $('#track_hashtag').click(function(){
         hashtag = $('#hashtag').val();
-
-        // ajax call to start tracking new hashtag
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: {
-                csrfmiddlewaretoken: csrf_token,
-                hashtag: hashtag
-            }
-        });
+        if(hashtag !== ''){
+            // ajax call to start tracking new hashtag
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    csrfmiddlewaretoken: csrf_token,
+                    hashtag: hashtag
+                }
+            });
+        }
 
         $('#tweet_results').hide(); // hide the old tweet results
+
     });
 };
