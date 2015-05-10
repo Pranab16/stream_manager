@@ -18,15 +18,17 @@ Steps to run this application:
 
     ``` python manage.py migrate ```
 
-5. Run swamp-dragon server
+5. Install redis and start the server
+
+6. Run swamp-dragon server
 
     ``` python manage.py runsd ```
 
-6. Open a new tab and run django server
+7. Open a new tab and run django server
 
     ``` python manage.py runserver ```
 
-7. Open browser and hit
+8. Open browser and hit
     ``` http://localhost:8000 ```
     
 This will show tweets count having word 'programming'.
