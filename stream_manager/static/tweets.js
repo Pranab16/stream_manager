@@ -10,6 +10,7 @@ swampdragon.ready(function() {
 
 // this is called whenever a new object(of any model being watched) is created
 swampdragon.onChannelMessage(function (channels, message) {
+    console.log(message);
     if(message.data._type == 'tweet' && message.data.hashtag == hashtag){
 
         // fetch and set tweets count
@@ -37,6 +38,7 @@ var start_track = function(url, csrf_token){
     $('#track_hashtag').click(function(){
         hashtag = $('#hashtag').val();
         if(hashtag !== ''){
+
             // ajax call to start tracking new hashtag
             $.ajax({
                 type: 'POST',

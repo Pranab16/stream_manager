@@ -12,7 +12,7 @@ def index(request):
 # Start real-time tracking for the passed hashtag
 def ajax_start_stream(request):
     hashtag = request.POST.get('hashtag')
-    stream = TweetStream()
-    stream.start_stream(hashtag)
+    TweetStream().get_auth()
+    TweetStream().start_stream(hashtag)
 
     return HttpResponse(True)

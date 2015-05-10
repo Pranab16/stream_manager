@@ -34,16 +34,22 @@ class TweetStream():
     stream = None
 
     def __init__(self):
-        if self.auth is None:
-            self.auth = tweepy.OAuthHandler(settings.CONSUMER_KEY, settings.CONSUMER_SECRET)
-            self.auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
+        pass
 
-    def start_stream(self, hashtag):
-        self.stop_stream()
-        self.stream = tweepy.Stream(self.auth, TweetListener(hashtag))
+    @classmethod
+    def get_auth(cls):
+        if cls.auth is None:
+            cls.auth = tweepy.OAuthHandler(settings.CONSUMER_KEY, settings.CONSUMER_SECRET)
+            cls.auth.set_access_token(settings.ACCESS_TOKEN, settings.ACCESS_TOKEN_SECRET)
+
+    @classmethod
+    def start_stream(cls, hashtag):
+        cls.stop_stream()
+        cls.stream = tweepy.Stream(cls.auth, TweetListener(hashtag))
         # fetch tweets using real-time streaming async
-        self.stream.filter(track=[hashtag], async=True)
+        cls.stream.filter(track=[hashtag], async=True)
 
-    def stop_stream(self):
-        if self.stream and self.stream.running:
-            self.stream.disconnect()
+    @classmethod
+    def stop_stream(cls):
+        if cls.stream is not None and cls.stream.running:
+            cls.stream.disconnect()
