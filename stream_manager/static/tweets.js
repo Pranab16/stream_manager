@@ -1,6 +1,5 @@
-var tweet_count_elem = document.getElementById('tweet_count');
-var user_count_elem = document.getElementById('user_count');
-var user_name_elem = document.getElementById('user_screen_name');
+var hashtag = '';
+$('#tweet_results').hide();
 
 // this is called when connection is ready with swampdragon
 swampdragon.ready(function() {
@@ -11,17 +10,42 @@ swampdragon.ready(function() {
 
 // this is called whenever a new object(of any model being watched) is created
 swampdragon.onChannelMessage(function (channels, message) {
-
     if(message.data._type == 'tweet'){
-        tweet_count_elem.innerHTML = Number(tweet_count_elem.innerHTML) + 1;
+
+        // fetch and set tweets count
+        swampdragon.callRouter('get_count', 'tweets', {hashtag: hashtag}, function (context, data) {
+            $('#tweet_count').val(data.tweet_count);
+        });
 
         // Fetch and update screen name having maximum tweets
-        swampdragon.callRouter('get_screen_name', 'users', {}, function (context, data) {
-            user_name_elem.innerHTML = data.screen_name;
+        swampdragon.callRouter('get_screen_name', 'users', {hashtag: hashtag}, function (context, data) {
+            $('#user_screen_name').val(data.screen_name);
         });
 
     }else if(message.data._type == 'user'){
-        user_count_elem.innerHTML = Number(user_count_elem.innerHTML) + 1;
+        // fetch and set users count
+        swampdragon.callRouter('get_count', 'users', {hashtag: hashtag}, function (context, data) {
+            $('#user_count').val(data.user_count);
+        });
     }
+    $('#tweet_results').show(); //show new tweet results
 
 });
+
+var start_track = function(url, csrf_token){
+    $('#track_hashtag').click(function(){
+        hashtag = $('#hashtag').val();
+
+        // ajax call to start tracking new hashtag
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                csrfmiddlewaretoken: csrf_token,
+                hashtag: hashtag
+            }
+        });
+
+        $('#tweet_results').hide(); // hide the old tweet results
+    });
+};

@@ -12,5 +12,6 @@ class User(SelfPublishModel, models.Model):
 class Tweet(SelfPublishModel, models.Model):
     serializer_class = TweetSerializer
     text = models.TextField(max_length=500, blank=False, null=True)
-    tweet_id = models.CharField(max_length=50)
     user_id = models.ForeignKey(User)
+    hashtag = models.CharField(max_length=50, blank=False, null=True)
+    tweet_id = models.CharField(max_length=50, blank=False, null=True)

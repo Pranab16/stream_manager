@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import swampdragon.models
 
 
 class Migration(migrations.Migration):
@@ -15,11 +16,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('text', models.TextField(max_length=500, null=True)),
-                ('tweet_id', models.IntegerField()),
+                ('hashtag', models.CharField(max_length=50, null=True)),
+                ('tweet_id', models.CharField(max_length=50, null=True)),
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=(swampdragon.models.SelfPublishModel, models.Model),
         ),
         migrations.CreateModel(
             name='User',
@@ -30,7 +32,7 @@ class Migration(migrations.Migration):
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=(swampdragon.models.SelfPublishModel, models.Model),
         ),
         migrations.AddField(
             model_name='tweet',

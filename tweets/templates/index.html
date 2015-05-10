@@ -6,12 +6,24 @@
   <title></title>
 </head>
 <body>
-  <div style="text-align: center; margin-top: 15%">
-    <p>crunched <span id="tweet_count">{{ tweets_count }}</span> tweets and <span id="user_count">{{ users_count }}</span> users</p>
-    <p>most tweets were by user: @<span id="user_screen_name">{{screen_name}}</span></p>
+  <div style="text-align: center; margin-top: 5%">
+    <div>
+      <input name="hashtag" id="hashtag"/>
+      <button id="track_hashtag">Track</button>
+    </div>
+    <div id="tweet_results" style="margin-top: 5%">
+      <p>crunched <span id="tweet_count">{{ tweets_count }}</span> tweets and <span id="user_count">{{ users_count }}</span> users</p>
+      <p>most tweets were by user: @<span id="user_screen_name">{{screen_name}}</span></p>
+    </div>
   </div>
+
   {% swampdragon_settings %}
   <script type="text/javascript" src="{{STATIC_URL}}swampdragon/js/dist/swampdragon.js"></script>
+  <script type="text/javascript" src="{{STATIC_URL}}jquery-1.11.2.js"></script>
   <script type="text/javascript" src="{{STATIC_URL}}tweets.js"></script>
+
+<script>
+  start_track('{% url "ajax_start_stream" %}', '{{ csrf_token }}');
+</script>
 </body>
 </html>
