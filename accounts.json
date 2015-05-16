@@ -1,0 +1,69 @@
+{
+    "News":[
+        {
+            "screen_name": "abpnewstv",
+            "name": "ABP News"
+        },
+        {
+            "screen_name": "IndiaToday",
+            "name": "India Today"
+        },
+        {
+            "screen_name": "TimesNow",
+            "name": "TIMES NOW"
+        },
+        {
+            "screen_name": "aajtak",
+            "name": "आज तक"
+        },
+        {
+            "screen_name": "htTweets",
+            "name": "Hindustan Times"
+        }
+    ],
+    "Politics":[
+        {
+            "screen_name": "narendramodi",
+            "name": "Narendra Modi"
+        },
+        {
+            "screen_name": "BarackObama",
+            "name": "Barack Obama"
+        },
+        {
+            "screen_name": "ArvindKejriwal",
+            "name": "Arvind Kejriwal"
+        },
+        {
+            "screen_name": "SoniaGandhiG",
+            "name": "Sonia Gandhi"
+        },
+        {
+            "screen_name": "msisodia",
+            "name": "Manish Sisodia"
+        }
+    ],
+    "Cricket":[
+        {
+            "screen_name": "RCBTweets",
+            "name": "Royal Challengers"
+        },
+        {
+            "screen_name": "ChennaiIPL",
+            "name": "Chennai Super Kings"
+        },
+        {
+            "screen_name": "DelhiDaredevils",
+            "name": "Delhi Daredevils"
+        },
+        {
+            "screen_name": "mipaltan",
+            "name": "Mumbai Indians"
+        },
+        {
+            "screen_name": "StarSportsIndia",
+            "name": "Star Sports"
+        }
+    ]
+
+}
