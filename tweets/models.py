@@ -25,7 +25,7 @@ class Account(models.Model):
 
 
 class TweetMention(models.Model):
-    account_id = models.ForeignKey(Account)
+    account = models.ForeignKey(Account)
     id_str = models.CharField(max_length=50)
     user_id_str = models.CharField(max_length=50)
     retweeted = models.BooleanField(default=False)
@@ -33,7 +33,7 @@ class TweetMention(models.Model):
 
 
 class TweetResponse(models.Model):
-    account_id = models.ForeignKey(Account)
+    account = models.ForeignKey(Account)
     id_str = models.CharField(max_length=50)
     reply_id_str = models.CharField(max_length=50, null=True)
     created_at = models.DateTimeField()

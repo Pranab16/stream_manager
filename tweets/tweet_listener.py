@@ -1,5 +1,6 @@
 import tweepy
 import json
+import threading
 from django.conf import settings
 from tweets.models import Tweet, User, Account, TweetMention, TweetResponse
 from datetime import datetime, timedelta
@@ -43,7 +44,7 @@ class MentionStreamListener(tweepy.StreamListener):
 
             # check if user with screen name exists else create a new user
             TweetMention.objects.get_or_create(id_str=data['id_str'],
-                defaults={'account_id': account, 'user_id_str': data['user']['id_str'],
+                defaults={'account': account, 'user_id_str': data['user']['id_str'],
                           'retweeted': data['retweeted'], 'created_at': data['created_at']}
             )
         except Exception, e:
@@ -63,7 +64,7 @@ class ResponseStreamListener(tweepy.StreamListener):
             account = Account.objects.filter(screen_name=data['user_mentions']['screen_name']).first
 
             TweetResponse.objects.get_or_create(id_str=data['id_str'],
-                defaults={'account_id': account, 'reply_id_str': data['in_reply_to_status_id_str'],
+                defaults={'account': account, 'reply_id_str': data['in_reply_to_status_id_str'],
                           'created_at': data['created_at']}
             )
         except Exception, e:
@@ -109,32 +110,44 @@ class TweetStream():
 
     def get_old_tweets(self):
         api = tweepy.API(self.auth)
-        accounts = Account.objects.all()
-        fetch_till = datetime.now() - timedelta(3)
+        accounts = Account.objects.all().reverse()
+        fetch_till = datetime.now() - timedelta(1)
+        count = 0
         for account in accounts:
-            self.fetch_mentions(api, account, fetch_till)
+            # thr1 = threading.Thread(target=self.fetch_mentions, args=(api, account, fetch_till, count))
+            # thr1.start()
+            # self.fetch_mentions(api, account, fetch_till, count)
+            # thr2 = threading.Thread(target=self.fetch_responses, args=(api, account, fetch_till))
+            # thr2.start()
             self.fetch_responses(api, account, fetch_till)
 
-    def fetch_mentions(self, api, account, fetch_till):
-        mentions = api.search(q=account.screen_name)
+    def fetch_mentions(self, api, account, fetch_till, count):
+        count += 1
+        print count
+        mentions = api.search(q=account.screen_name, count=100)
         mention_data = list(mentions)
         for mention in mention_data:
             oldest_date = mention.created_at
             if oldest_date > fetch_till:
-                TweetMention.objects.create(account_id=account, id_str=mention.id_str,
+                TweetMention.objects.create(account=account, id_str=mention.id_str,
                     user_id_str=mention.user.id_str,
                     retweeted=mention.retweeted, created_at=mention.created_at)
 
+        print oldest_date
         if oldest_date and oldest_date > fetch_till:
-            self.fetch_mentions(api, account, fetch_till)
+            self.fetch_mentions(api, account, fetch_till, count)
 
     def fetch_responses(self, api, account, fetch_till):
-        responses = api.user_timeline(screen_name=account.screen_name)
+        print '*'*100
+        print account.screen_name
+        responses = api.user_timeline(screen_name=account.screen_name, count=100)
         response_data = list(responses)
+        print len(response_data)
+        print '*'*100
         for response in response_data:
             oldest_date = response.created_at
             if oldest_date > fetch_till:
-                TweetResponse.objects.create(account_id=account, id_str=response.id_str,
+                TweetResponse.objects.create(account=account, id_str=response.id_str,
                     reply_id_str=response.in_reply_to_status_id_str,
                     created_at=response.created_at)
 

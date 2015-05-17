@@ -1,4 +1,48 @@
 {
+    "Travel":[
+        {
+            "screen_name": "makemytripcare",
+            "name": "MakeMyTrip Care"
+        },
+        {
+            "screen_name": "GoibiboDotCom",
+            "name": "goibibo"
+        },
+        {
+            "screen_name": "Cleartrip",
+            "name": "Cleartrip"
+        },
+        {
+            "screen_name": "AirbnbHelp",
+            "name": "Airbnb Help"
+        },
+        {
+            "screen_name": "bookingcom",
+            "name": "Booking.com"
+        }
+    ],
+    "Shopping":[
+        {
+            "screen_name": "Flipkart",
+            "name": "Flipkart"
+        },
+        {
+            "screen_name": "Paytm",
+            "name": "Paytm"
+        },
+        {
+            "screen_name": "JabongIndia",
+            "name": "Jabong.com"
+        },
+        {
+            "screen_name": "myntra",
+            "name": "Myntra"
+        },
+        {
+            "screen_name": "Snapdeal_Help",
+            "name": "Snapdeal_Help"
+        }
+    ],
     "News":[
         {
             "screen_name": "abpnewstv",
@@ -19,50 +63,6 @@
         {
             "screen_name": "htTweets",
             "name": "Hindustan Times"
-        }
-    ],
-    "Politics":[
-        {
-            "screen_name": "narendramodi",
-            "name": "Narendra Modi"
-        },
-        {
-            "screen_name": "BarackObama",
-            "name": "Barack Obama"
-        },
-        {
-            "screen_name": "ArvindKejriwal",
-            "name": "Arvind Kejriwal"
-        },
-        {
-            "screen_name": "SoniaGandhiG",
-            "name": "Sonia Gandhi"
-        },
-        {
-            "screen_name": "msisodia",
-            "name": "Manish Sisodia"
-        }
-    ],
-    "Cricket":[
-        {
-            "screen_name": "RCBTweets",
-            "name": "Royal Challengers"
-        },
-        {
-            "screen_name": "ChennaiIPL",
-            "name": "Chennai Super Kings"
-        },
-        {
-            "screen_name": "DelhiDaredevils",
-            "name": "Delhi Daredevils"
-        },
-        {
-            "screen_name": "mipaltan",
-            "name": "Mumbai Indians"
-        },
-        {
-            "screen_name": "StarSportsIndia",
-            "name": "Star Sports"
         }
     ]
 

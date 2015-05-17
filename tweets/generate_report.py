@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import json
 import xlwt
-from tweets.models import TweetMention, TweetResponse
+import time
+from tweets.models import TweetMention, TweetResponse, Account
 
 
 class GenerateReport():
@@ -30,21 +31,76 @@ class GenerateReport():
     def create_report(self, handle):
         mention_count, response_count, user_count, avg_resp_time = self.logic(handle)
 
+        account = Account.objects.filter(screen_name=handle)
+
         wb = xlwt.Workbook()
-        ws = wb.add_sheet('A Test Sheet')
-        headers = ['Mention Count', 'Response Count', 'User Count', 'Avg Response Time']
+        ws = wb.add_sheet('Twitter stats')
+        headers = ['Account', 'Mention Count', 'Response Count', 'User Count', 'Avg Response Time']
 
         for i in len(headers):
             ws.write(0, i, headers[i])
-        
 
+        ws.write(1, 0, account.name)
+        ws.write(1, 1, mention_count)
+        ws.write(1, 2, response_count)
+        ws.write(1, 3, user_count)
+        ws.write(1, 4, avg_resp_time)
 
-        ws.write(0, 0, 1234.56)
-        ws.write(1, 0, datetime.now())
-        ws.write(2, 0, 1)
-        ws.write(2, 1, 1)
-        ws.write(2, 2, xlwt.Formula("A3+B3"))
+        file = open('report_'+account.name+str(int(time.time()))+'.xls', 'w+')
+        wb.save(file)
 
-        wb.save('example.xls')
+    def create_same_category_report(self, handle):
+        account = Account.objects.filter(screen_name=handle).first
+        accounts = Account.objects.filter(category=account.category)
+        mention_count = []
+        response_count = []
+        user_count = []
+        avg_resp_time = []
+        for idx, ant in enumerate(accounts):
+            mention_count[idx], response_count[idx], user_count[idx], avg_resp_time[idx] = self.logic(ant.screen_name)
+
+        wb = xlwt.Workbook()
+        ws = wb.add_sheet('Twitter Same Category stats')
+        headers = ['Account', 'Mention Count', 'Response Count', 'User Count', 'Avg Response Time']
+
+        for i in len(headers):
+            ws.write(0, i, headers[i])
+
+        for i, account in enumerate(accounts):
+            ws.write(i+1, 0, account.name)
+            ws.write(i+1, 1, mention_count[i])
+            ws.write(i+1, 2, response_count[i])
+            ws.write(i+1, 3, user_count[i])
+            ws.write(i+1, 4, avg_resp_time[i])
+
+        file = open('same_category_report_'+account.name+str(int(time.time()))+'.xls', 'w+')
+        wb.save(file)
+
+    def create_diff_category_report(self, handle):
+        account = Account.objects.filter(screen_name=handle).first
+        accounts = Account.objects.exclude(category=account.category)
+        mention_count = []
+        response_count = []
+        user_count = []
+        avg_resp_time = []
+        for idx, ant in enumerate(accounts):
+            mention_count[idx], response_count[idx], user_count[idx], avg_resp_time[idx] = self.logic(ant.screen_name)
+
+        wb = xlwt.Workbook()
+        ws = wb.add_sheet('Twitter Same Category stats')
+        headers = ['Account', 'Mention Count', 'Response Count', 'User Count', 'Avg Response Time']
+
+        for i in len(headers):
+            ws.write(0, i, headers[i])
+
+        for i, account in enumerate(accounts):
+            ws.write(i+1, 0, account.name)
+            ws.write(i+1, 1, mention_count[i])
+            ws.write(i+1, 2, response_count[i])
+            ws.write(i+1, 3, user_count[i])
+            ws.write(i+1, 4, avg_resp_time[i])
+
+        file = open('different_category_report_'+account.name+str(int(time.time()))+'.xls', 'w+')
+        wb.save(file)
 
 
